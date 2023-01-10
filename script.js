@@ -12,9 +12,9 @@ function leerDatosProducto(producto){
     const informProducto = {
         titulo: producto.querySelector(".tarjeta-titulo").textContent,
         texto: producto.querySelector(".tarjeta-precio").textContent,
+        id: producto.querySelector(".botonEliminar"),
     };
 
-    // console.log(informProducto);
    productosEnCarrito=[...productosEnCarrito, informProducto];
    carritoHTML();
 }
@@ -31,10 +31,28 @@ function carritoHTML(){
             <h5>${producto.titulo}</h5>
             <p>${producto.texto}</p>
 
-            <button id="botonEliminar">Eliminar</button>
-        </div> 
+            <button class="botonEliminar"id="${producto.id}">Eliminar</button>
+        </div>
+
         `
         carrito.appendChild(fila);
+       
     });
 }
 
+function limpiarHTML() {
+    carrito.innerHTML = "";
+  }
+  
+carrito.addEventListener("click", eliminarProducto);
+
+
+function eliminarProducto(e) {
+    if (e.target.classList.contains("#botonEliminar")) {
+      let productoID = e.target.getAttribute("id");
+      productosEnCarrito = productosEnCarrito.filter(
+        (producto) => producto.id !== productoID
+      );
+      carritoHTML();
+    }
+  }
